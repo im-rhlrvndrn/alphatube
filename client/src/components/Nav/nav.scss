@@ -1,0 +1,70 @@
+.sidebar_wrapper {
+    left: 0;
+    top: 0px;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    position: fixed;
+
+    .overlay {
+        flex: 0.8;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar {
+        flex: 0.2;
+        // width: 18%s;
+        overflow-y: auto;
+        height: 100vh;
+
+        /* width */
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        &_header {
+            height: 80px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        h1 {
+            line-height: 1.5rem;
+        }
+
+        img {
+            box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        &_group {
+            &_item {
+                transition: 0.4s all ease-in-out;
+                padding: 0.5rem 0rem;
+
+                &:hover {
+                    cursor: pointer;
+                    padding: 0.5rem 1rem;
+                    background-color: var(--dark);
+                    border-radius: var(--br-5) 0 0 var(--br-5);
+                }
+            }
+        }
+    }
+}
