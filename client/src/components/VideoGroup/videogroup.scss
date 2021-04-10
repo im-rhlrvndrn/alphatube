@@ -1,22 +1,45 @@
 .video_group {
     width: 100%;
-    height: 400px;
+
+    &:first-child {
+        margin: 0;
+    }
 
     &_item {
-        max-width: 300px;
+        width: 300px;
 
         &:last-child {
             margin: 0;
+        }
+
+        &:hover {
+            button {
+                opacity: 1;
+            }
         }
 
         > img {
             width: 100%;
             height: 200px;
             object-fit: cover;
+            box-shadow: 0 10px 20px 0 rgba($color: #000000, $alpha: 0.4);
         }
 
         h2 {
             line-height: 1.5rem;
+        }
+
+        button {
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .content {
+            width: 100%;
+
+            &_details {
+                width: 100%;
+            }
         }
     }
 }

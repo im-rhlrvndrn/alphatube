@@ -1,6 +1,14 @@
+nav {
+    top: 0;
+    left: 0;
+    z-index: 1;
+    position: sticky;
+}
+
 .sidebar_wrapper {
     left: 0;
     top: 0px;
+    z-index: 2;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -56,14 +64,6 @@
         &_group {
             &_item {
                 transition: 0.4s all ease-in-out;
-                padding: 0.5rem 0rem;
-
-                &:hover {
-                    cursor: pointer;
-                    padding: 0.5rem 1rem;
-                    background-color: var(--dark);
-                    border-radius: var(--br-5) 0 0 var(--br-5);
-                }
             }
         }
     }

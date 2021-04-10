@@ -6,8 +6,9 @@ import './nav.scss';
 
 // React components
 import { MenuIcon } from '../../react_icons/MenuIcon';
-import { LightModeIcon } from '../../react_icons/LightModeIcon';
+import { UploadIcon } from '../../react_icons/UploadIcon';
 import { DarkModeIcon } from '../../react_icons/DarkModeIcon';
+import { LightModeIcon } from '../../react_icons/LightModeIcon';
 import { SidebarGroup } from './SidebarGroup';
 
 export const Nav = () => {
@@ -76,9 +77,6 @@ export const Nav = () => {
                     className='searchbar margin-reset ml-2 pl-1 br-5 font-s'
                     placeholder='Search for videos...'
                 />
-                <button className='margin-reset btn font-xs font-weight-md ml-2 bg-primary padding-reset flex flex-align-center pr-1 pl-1 br-5'>
-                    <DarkModeIcon style={{ width: '30px', height: '30px' }} /> Upload New Video
-                </button>
                 <button className='bg-transparent ml-2' onClick={setTheme}>
                     {isLightTheme ? (
                         <LightModeIcon fill={theme.color} />
@@ -91,6 +89,9 @@ export const Nav = () => {
                     alt=''
                     className='margin-reset ml-2 icon-40 rounded obj-fit-cover '
                 />
+                <button className='margin-reset btn font-xs font-weight-md ml-2 bg-primary padding-reset flex flex-align-center pr-1 pl-1 br-5'>
+                    <UploadIcon style={{ width: '20px', height: '20px' }} /> Upload New Video
+                </button>
             </div>
 
             {isSidebarActive && (

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useTheme } from '../../../context/ThemeContext';
+import { withHoverState } from '../../../hoc/withHoverState';
 
-export const SidebarItem = (option) => {
+let SidebarItem = ({ option, hoverState: { isActive }, setHoverState }) => {
     const { theme } = useTheme();
-    const [isHovered, setIsHovered] = useState(false);
-    const { name, media = {} } = option.option;
+    const { name, media = {} } = option;
 
     const renderMedia = () => {
         if (media.type === 'image')
@@ -16,20 +16,30 @@ export const SidebarItem = (option) => {
         return '';
     };
 
-    const toggleHoverState = () => setIsHovered((prevState) => !prevState);
+    const toggleHoverState = () =>
+        setHoverState((prevState) => ({ ...prevState, isActive: !prevState.isActive }));
 
     return (
         <div
             className='sidebar_group_item flex flex-align-center mb-1'
             style={{
-                backgroundColor: isHovered && theme.light_background,
-                color: isHovered && theme.color,
+                backgroundColor: isActive && theme.light_background,
+                color: isActive && theme.color,
+                padding: isActive && '0.5rem 1rem',
+                borderRadius: isActive && '5px 0 0 5px',
             }}
             onMouseEnter={toggleHoverState}
             onMouseLeave={toggleHoverState}
+            onFocus={toggleHoverState}
+            onBlur={toggleHoverState}
         >
             {renderMedia()}
-            <p className='font-xs h-max'>{name}</p>
+            <p tabIndex='0' className='font-xs h-max'>
+                {name}
+            </p>
         </div>
     );
 };
+
+SidebarItem = withHoverState(SidebarItem);
+export { SidebarItem };

@@ -958,11 +958,11 @@ input {
     justify-content: space-around;
 }
 
-.flex-justify-fe {
+.flex-justify-end {
     justify-content: flex-end;
 }
 
-.flex-justify-fs {
+.flex-justify-start {
     justify-content: flex-start;
 }
 
@@ -978,10 +978,10 @@ input {
     align-items: space-around;
 }
 
-.flex-align-fe {
+.flex-align-end {
     align-items: flex-end;
 }
 
-.flex-align-fs {
+.flex-align-start {
     align-items: flex-start;
 }
