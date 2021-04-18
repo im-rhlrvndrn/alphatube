@@ -9,8 +9,8 @@ export const VideoGroup = ({ heading, videoItems }) => {
         <div className='video_group w-100p h-max mt-4'>
             {heading && <h1 className='font-lg'>{heading}</h1>}
             <div className='flex flex-justify-sb'>
-                {videoItems.map((item) => (
-                    <EnhancedVideoItem item={item} />
+                {videoItems.map((item, index) => (
+                    <EnhancedVideoItem key={index} item={item} />
                 ))}
             </div>
         </div>

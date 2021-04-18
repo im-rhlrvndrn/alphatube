@@ -5,6 +5,8 @@ import { withHoverState } from '../../../hoc/withHoverState';
 // React components
 import { VerticalMoreIcon } from '../../../react_icons/VerticalMoreIcon';
 
+// Assets
+
 const VideoItem = ({
     item: { title, creator, thumbnail },
     hoverState,
@@ -41,11 +43,7 @@ const VideoItem = ({
                     height: recommendationVariant && '120px',
                 }}
                 tabIndex='0'
-                src={
-                    hoverState.isActive
-                        ? 'https://i.ytimg.com/an_webp/R59e1Vl5lO8/mqdefault_6s.webp?du=3000&sqp=CKjhxYMG&rs=AOn4CLCenrGJ67IAeR0nvrEIL3tfazT0tA'
-                        : thumbnail.url
-                }
+                src={hoverState.isActive ? thumbnail.animated.url : thumbnail.url}
                 alt={title}
             />
             <div className={`content flex ${recommendationVariant ? 'margin-reset' : 'mt-1'}`}>
@@ -75,7 +73,7 @@ const VideoItem = ({
                         </span>
                     </div>
                 </div>
-                <button class='bg-transparent ml-1 flex flex-align-start'>
+                <button className='bg-transparent ml-1 flex flex-align-start'>
                     <VerticalMoreIcon fill={theme.color} />
                 </button>
             </div>

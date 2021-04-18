@@ -1,18 +1,21 @@
 import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 
 // styles
 import './nav.scss';
 
 // React components
+import { SidebarGroup } from './SidebarGroup';
 import { MenuIcon } from '../../react_icons/MenuIcon';
 import { UploadIcon } from '../../react_icons/UploadIcon';
 import { DarkModeIcon } from '../../react_icons/DarkModeIcon';
 import { LightModeIcon } from '../../react_icons/LightModeIcon';
-import { SidebarGroup } from './SidebarGroup';
+import { DefaultPersonIcon } from '../../react_icons/DefaultPersonIcon';
 
 export const Nav = () => {
     const { theme, isLightTheme, setTheme } = useTheme();
+    const [{ is_logged_in }, authDispatch] = useAuth();
     const [isSidebarActive, setIsSidebarActive] = useState(false);
     const sidebarItems = [
         {
@@ -84,11 +87,18 @@ export const Nav = () => {
                         <DarkModeIcon fill={theme.color} />
                     )}
                 </button>
-                <img
-                    src='https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-                    alt=''
-                    className='margin-reset ml-2 icon-40 rounded obj-fit-cover '
-                />
+                {is_logged_in ? (
+                    <img
+                        style={{ backgroundColor: theme.constants.light }}
+                        src='https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+                        alt=''
+                        className='margin-reset ml-2 icon-40 rounded obj-fit-cover '
+                    />
+                ) : (
+                    <button className='bg-transparent ml-2'>
+                        <DefaultPersonIcon fill={theme.color} />
+                    </button>
+                )}
                 <button className='margin-reset btn font-xs font-weight-md ml-2 bg-primary padding-reset flex flex-align-center pr-1 pl-1 br-5'>
                     <UploadIcon style={{ width: '20px', height: '20px' }} /> Upload New Video
                 </button>
