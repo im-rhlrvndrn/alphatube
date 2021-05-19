@@ -1,5 +1,9 @@
+import Cookies from 'js-cookie';
+
 export const slugify = (inputValue) => inputValue.toString().split(' ').join('-');
+
 export const deSlugify = (inputValue) => inputValue.toString().split('-').join(' ');
+
 export const generateSearchParams = (input) =>
     input
         .split('')
@@ -12,5 +16,14 @@ export const generateSearchParams = (input) =>
             return { ...acc };
         }, {});
 
+export const maxWords = (inputString, maxValue) =>
+    `${inputString
+        .split('')
+        .slice(0, maxValue + 1)
+        .join('')}${inputString.length > maxValue ? '...' : ''}`;
+
+export const isUserLoggedIn = () => (!Cookies.get('userId') ? false : true);
+
 export { alreadyExists } from './array_helpers';
 export { getFilteredData, getSortedData } from './filter';
+export { transformDate, processDuration, processPublishedAt, abbrNum } from './time.utils';

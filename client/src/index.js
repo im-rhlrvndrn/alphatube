@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { DataProvider } from './context/DataProvider';
 import { ThemeProvider } from './context/ThemeContext';
+import { ModalProvider } from './context/ModalProvider';
 
 // React components
 import App from './App';
@@ -10,11 +12,15 @@ import App from './App';
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
-            <AuthProvider>
-                <ThemeProvider>
-                    <App />
-                </ThemeProvider>
-            </AuthProvider>
+            <DataProvider>
+                <AuthProvider>
+                    <ModalProvider>
+                        <ThemeProvider>
+                            <App />
+                        </ThemeProvider>
+                    </ModalProvider>
+                </AuthProvider>
+            </DataProvider>
         </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')

@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useData } from '../../context/DataProvider';
 import { useTheme } from '../../context/ThemeContext';
+import { useModal } from '../../context/ModalProvider';
 
 // styles
 import './nav.scss';
@@ -15,52 +16,51 @@ import { DefaultPersonIcon } from '../../react_icons/DefaultPersonIcon';
 
 export const Nav = () => {
     const { theme, isLightTheme, setTheme } = useTheme();
-    const [{ is_logged_in }, authDispatch] = useAuth();
+    const [{ currentUser }] = useData();
+    const [{ auth }, modalDispatch] = useModal();
     const [isSidebarActive, setIsSidebarActive] = useState(false);
     const sidebarItems = [
         {
             name: 'Alan Walker',
             media: {
                 type: 'image',
-                value:
-                    'https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                value: 'https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
             },
         },
         {
             name: 'BeingCodr',
             media: {
                 type: 'image',
-                value:
-                    'https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                value: 'https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
             },
         },
         {
             name: 'Brad Traversy',
             media: {
                 type: 'image',
-                value:
-                    'https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                value: 'https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
             },
         },
         {
             name: 'Tanay Pratap',
             media: {
                 type: 'image',
-                value:
-                    'https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                value: 'https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
             },
         },
         {
             name: 'Rahul Ravindran',
             media: {
                 type: 'image',
-                value:
-                    'https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                value: 'https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
             },
         },
     ];
 
     const toggleIsSidebarActive = () => setIsSidebarActive((prevState) => !prevState);
+
+    const toggleAuthModal = () =>
+        modalDispatch({ type: 'UPDATE_AUTH_MODAL', payload: { state: { authState: 'login' } } });
 
     return (
         <nav>
@@ -87,18 +87,18 @@ export const Nav = () => {
                         <DarkModeIcon fill={theme.color} />
                     )}
                 </button>
-                {is_logged_in ? (
+                {/* {is_logged_in ? (
                     <img
                         style={{ backgroundColor: theme.constants.light }}
                         src='https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
                         alt=''
                         className='margin-reset ml-2 icon-40 rounded obj-fit-cover '
                     />
-                ) : (
-                    <button className='bg-transparent ml-2'>
-                        <DefaultPersonIcon fill={theme.color} />
-                    </button>
-                )}
+                ) : ( */}
+                <button className='bg-transparent ml-2' onClick={toggleAuthModal}>
+                    <DefaultPersonIcon fill={theme.color} />
+                </button>
+                {/* )} */}
                 <button className='margin-reset btn font-xs font-weight-md ml-2 bg-primary padding-reset flex flex-align-center pr-1 pl-1 br-5'>
                     <UploadIcon style={{ width: '20px', height: '20px' }} /> Upload New Video
                 </button>
@@ -119,20 +119,41 @@ export const Nav = () => {
                         <SidebarGroup
                             sidebarItems={[
                                 {
+                                    to: '/',
                                     name: 'Home',
                                     media: { type: 'component', value: DarkModeIcon },
                                 },
                                 {
+                                    to: '/explore',
                                     name: 'Explore',
                                     media: { type: 'component', value: DarkModeIcon },
                                 },
                                 {
-                                    name: 'Subscriptions',
+                                    to: '/liked',
+                                    name: 'Liked videos',
+                                    media: { type: 'component', value: DarkModeIcon },
+                                },
+                                {
+                                    to: '/history',
+                                    name: 'History videos',
                                     media: { type: 'component', value: DarkModeIcon },
                                 },
                             ]}
                         />
-                        <SidebarGroup heading='subscriptions' sidebarItems={sidebarItems} />
+                        <SidebarGroup
+                            heading='playlists'
+                            /*'subscriptions'*/ sidebarItems={
+                                currentUser.playlists.length > 0
+                                    ? currentUser.playlists.map((item) => ({
+                                          name: item.name.name,
+                                          media: {
+                                              type: 'image',
+                                              value: 'https://images.pexels.com/photos/2280845/pexels-photo-2280845.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                                          },
+                                      }))
+                                    : [{ name: 'No playlists' }]
+                            }
+                        />
                         <SidebarGroup
                             sidebarItems={[
                                 {

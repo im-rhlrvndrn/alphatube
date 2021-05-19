@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useTheme } from '../../../context/ThemeContext';
 import { withHoverState } from '../../../hoc/withHoverState';
 
 let SidebarItem = ({ option, hoverState: { isActive }, setHoverState }) => {
     const { theme } = useTheme();
-    const { name, media = {} } = option;
+    const { name, media = {}, to = '/' } = option;
 
     const renderMedia = () => {
         if (media.type === 'image')
@@ -20,13 +21,13 @@ let SidebarItem = ({ option, hoverState: { isActive }, setHoverState }) => {
         setHoverState((prevState) => ({ ...prevState, isActive: !prevState.isActive }));
 
     return (
-        <div
-            className='sidebar_group_item flex flex-align-center mb-1'
+        <Link
+            to={to}
+            className='sidebar_group_item flex flex-align-center pt-1 pb-1'
             style={{
                 backgroundColor: isActive && theme.light_background,
-                color: isActive && theme.color,
-                padding: isActive && '0.5rem 1rem',
-                borderRadius: isActive && '5px 0 0 5px',
+                color: theme.color,
+                padding: isActive && '1rem 0 1rem 1rem',
             }}
             onMouseEnter={toggleHoverState}
             onMouseLeave={toggleHoverState}
@@ -37,7 +38,7 @@ let SidebarItem = ({ option, hoverState: { isActive }, setHoverState }) => {
             <p tabIndex='0' className='font-xs h-max'>
                 {name}
             </p>
-        </div>
+        </Link>
     );
 };
 

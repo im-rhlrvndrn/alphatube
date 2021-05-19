@@ -15,8 +15,9 @@ export const Home = () => {
     const { theme } = useTheme();
     const videoItems = [
         {
+            videoId: 'R59e1Vl5lO8',
             title: 'Getting Started w/ Next.JS',
-            creator: 'Rahul Ravindran',
+            channel: { channelTitle: 'Rahul Ravindran' },
             thumbnail: {
                 url: 'https://miro.medium.com/max/1000/1*htbUdWgFQ3a94PMEvBr_hQ.png',
                 animated: {
@@ -25,8 +26,9 @@ export const Home = () => {
             },
         },
         {
+            videoId: 'R59e1Vl5lO8',
             title: 'Getting Started w/ Next.JS',
-            creator: 'Rahul Ravindran',
+            channel: { channelTitle: 'Rahul Ravindran' },
             thumbnail: {
                 url: 'https://miro.medium.com/max/1000/1*htbUdWgFQ3a94PMEvBr_hQ.png',
                 animated: {
@@ -35,8 +37,9 @@ export const Home = () => {
             },
         },
         {
+            videoId: 'R59e1Vl5lO8',
             title: 'Getting Started w/ Next.JS',
-            creator: 'Rahul Ravindran',
+            channel: { channelTitle: 'Rahul Ravindran' },
             thumbnail: {
                 url: 'https://miro.medium.com/max/1000/1*htbUdWgFQ3a94PMEvBr_hQ.png',
                 animated: {
@@ -45,8 +48,9 @@ export const Home = () => {
             },
         },
         {
+            videoId: 'R59e1Vl5lO8',
             title: 'Getting Started w/ Next.JS',
-            creator: 'Rahul Ravindran',
+            channel: { channelTitle: 'Rahul Ravindran' },
             thumbnail: {
                 url: 'https://miro.medium.com/max/1000/1*htbUdWgFQ3a94PMEvBr_hQ.png',
                 animated: {
