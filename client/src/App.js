@@ -47,10 +47,10 @@ const App = () => {
                 <Route path='/feed' element={<Feed />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
-            {playlist.isActive && (
+            {playlist?.isActive && (
                 <PlaylistModal modal={playlist} dispatchType='UPDATE_PLAYLIST_MODAL' />
             )}
-            {auth.isActive && (
+            {auth?.isActive && (
                 <AuthModal
                     auth={auth.state.authState}
                     modal={auth}

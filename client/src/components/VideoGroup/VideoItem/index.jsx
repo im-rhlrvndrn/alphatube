@@ -51,6 +51,7 @@ const VideoItem = ({
             className: 'mt-1',
         },
     };
+
     const playlistVariant = {
         mainDiv: {
             style: { width: '100%' },
@@ -66,6 +67,7 @@ const VideoItem = ({
             className: 'ml-1',
         },
     };
+
     const recommendationVariant = {
         mainDiv: {
             style: { width: '100%' },
@@ -116,12 +118,12 @@ const VideoItem = ({
                     src={getThumbnailUrl()}
                     alt={title}
                 />
-                <div
+                {/* <div
                     className='duration'
-                    style={{ color: theme.color, backgroundColor: theme.constants.dark }}
+                    style={{ color: theme.color, backgroundColor: theme.dark_background }}
                 >
                     {`${hours === '00' ? '' : `${hours}:`}${minutes}:${seconds}`}
-                </div>
+                </div> */}
             </Link>
             <div className={`content flex ${selectedVariant?.content?.className ?? ''}`}>
                 {!recommendationVariant ||

@@ -3,7 +3,7 @@ import axios from '../../../axios';
 import { useParams } from 'react-router-dom';
 import { useData } from '../../../context/DataProvider';
 import { useTheme } from '../../../context/ThemeContext';
-import { getVideos } from '../../../utils/youtube.utils';
+import { getVideos } from '../../../lib/youtube.lib';
 
 // React components
 import { EnhancedVideoItem } from '../../VideoGroup/VideoItem';
@@ -20,7 +20,7 @@ export const VideoListing = ({ videos, title }) => {
 
     return (
         <div
-            className='playlist_container pl-2 pr-2 pt-1 pb-1 mb-1'
+            className='playlist_container pl-1 pr-1 pt-1 pb-1 mb-1'
             style={{ backgroundColor: theme.light_background }}
         >
             <h1 className='font-md margin-reset mb-1'>{title}</h1>
@@ -31,16 +31,16 @@ export const VideoListing = ({ videos, title }) => {
                             <EnhancedVideoItem
                                 variant='playlist'
                                 item={{
-                                    videoId: video?.id ?? '/',
-                                    title: video?.snippet?.title ?? 'Title Unavailable',
+                                    videoId: video?.videoId ?? '/',
+                                    title: video?.title ?? 'Title Unavailable',
                                     channel: {
-                                        channelId: video?.snippet?.channelId ?? '/',
+                                        channelId: video?.channel?.channelId ?? '/',
                                         channelTitle:
-                                            video?.snippet?.channelTitle ?? 'Channel unavailable',
+                                            video?.channel?.channelTitle ?? 'Channel unavailable',
                                     },
                                     thumbnail: {
                                         url:
-                                            video?.snippet?.thumbnails?.medium?.url ??
+                                                video?.thumbnail ??
                                             'https://images.wondershare.com/recoverit/article/2020/03/Video_unavailable_Img_1.jpg',
                                     },
                                 }}

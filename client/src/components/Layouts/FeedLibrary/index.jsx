@@ -8,7 +8,7 @@ import './feedlibrary.scss';
 // React components
 import { EnhancedVideoItem } from '../../VideoGroup/VideoItem';
 import { useEffect, useState } from 'react';
-import { getVideos } from '../../../utils/youtube.utils';
+import { YouTube } from '../../../lib';
 import axios from '../../../axios';
 import Cookies from 'js-cookie';
 
@@ -22,7 +22,7 @@ export const FeedLibraryLayout = ({ title = 'hell' }) => {
         try {
             const {
                 data: { items },
-            } = await getVideos(
+            } = await YouTube.getVideos(
                 currentUser[`${transformTitle(title).slug}`].map(
                     (item) => item.videoId && !item.isDeleted && item.videoId
                 ),

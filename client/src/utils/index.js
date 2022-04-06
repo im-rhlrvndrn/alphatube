@@ -26,4 +26,4 @@ export const isUserLoggedIn = () => (!Cookies.get('userId') ? false : true);
 
 export { alreadyExists } from './array_helpers';
 export { getFilteredData, getSortedData } from './filter';
-export { transformDate, processDuration, processPublishedAt, abbrNum } from './time.utils';
+export { transformDate, processDuration, processPublishedAt } from './time.utils';

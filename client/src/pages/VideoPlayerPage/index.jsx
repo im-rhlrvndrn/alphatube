@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useData } from '../../context/DataProvider';
 import { useEffect, useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
-import { getVideo } from '../../utils/youtube.utils';
+import { YouTube } from '../../lib';
 
 // styles
 import '../../common/scss/playerpage.scss';
@@ -23,8 +23,8 @@ export const VideoPlayerPage = ({ entity = 'video' }) => {
     const fetchVideo = async () => {
         try {
             let currentVideo = JSON.parse(localStorage.getItem('currentVideo'));
-            if (currentVideo?.id !== urlParams?.videoId) {
-                const response = await getVideo(urlParams.videoId);
+            if (currentVideo?.videoId !== urlParams?.videoId) {
+                const response = await YouTube.getVideo(urlParams.videoId);
                 console.log('video details => ', response);
                 dataDispatch({
                     type: 'SET_TOAST',
@@ -34,8 +34,20 @@ export const VideoPlayerPage = ({ entity = 'video' }) => {
                         },
                     },
                 });
-                setVideo((prevState) => response.data.items[0]);
-                localStorage.setItem('currentVideo', JSON.stringify(response.data.items[0]));
+                const modifiedVideoResponse = response.data.items.map((video) => ({
+                    videoId: urlParams?.videoId,
+                    title: video?.snippet?.title,
+                    channel: {
+                        channelId: video?.snippet?.channelId,
+                        channelTitle: video?.snippet?.channelTitle,
+                    },
+                    description: video?.snippet?.description,
+                    thumbnail: video?.snippet?.thumbnails?.medium?.url,
+                    published_at: video?.snippet?.publishedAt,
+                    statistics: video?.statistics,
+                }))[0];
+                setVideo((prevState) => modifiedVideoResponse);
+                localStorage.setItem('currentVideo', JSON.stringify(modifiedVideoResponse));
             } else setVideo((prevState) => currentVideo);
         } catch (error) {
             console.error(error);
@@ -43,6 +55,7 @@ export const VideoPlayerPage = ({ entity = 'video' }) => {
     };
 
     useEffect(() => {
+        window.scrollTo({ top: 0 });
         (async () => {
             await fetchVideo();
         })();
@@ -59,24 +72,21 @@ export const VideoPlayerPage = ({ entity = 'video' }) => {
             style={{ backgroundColor: theme.dark_background, color: theme.color }}
         >
             <div className='player_container'>
-                <div className='player'>
-                    <VideoPlayer
-                        videoId={urlParams?.videoId}
-                        opts={{
-                            width: '100%',
-                            height: '600',
-                            playerVars: { autoplay: 1 },
-                        }}
-                        onEnd={() => navigate(`/video/${related_videos?.data[0]?.id?.videoId}`)}
-                    />
-                </div>
-                {video?.snippet?.title && <VideoDescription video={video} />}
+                <VideoPlayer
+                    videoId={urlParams?.videoId}
+                    opts={{
+                        width: '100%',
+                        height: '600',
+                        playerVars: { autoplay: 1 },
+                    }}
+                    onEnd={() => navigate(`/video/${related_videos?.data[0]?.id?.videoId}`)}
+                />
+                {video?.title && <VideoDescription video={video} />}
             </div>
             <div className='recommendations_container ml-2'>
-                {entity === 'playlist' && <VideoListing />}
-                {(entity === 'video' /*&& video?.snippet?.title*/ || entity === 'playlist') && (
-                    <RelatedVideos videoId={urlParams.videoId} />
-                )}
+                {entity === 'playlist' && <VideoListing />}+
+
+                <RelatedVideos videoId={urlParams.videoId} />
             </div>
         </div>
     );

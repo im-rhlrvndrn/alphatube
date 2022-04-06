@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useData } from '../../context/DataProvider';
 import { useTheme } from '../../context/ThemeContext';
-import { getVideo } from '../../utils/youtube.utils';
+import { YouTube } from '../../lib';
 
 export const LikedPage = () => {
     const { theme } = useTheme();
@@ -10,7 +10,7 @@ export const LikedPage = () => {
 
     const fetchVideos = async () => {
         try {
-            const response = await getVideo(`${users[0]?.liked_videos[0].videoId}`);
+            const response = await YouTube.getVideo(`${users[0]?.liked_videos[0].videoId}`);
             console.log('Multiple Videos => ', response);
             setVideos((prevState) => response.data.items);
         } catch (error) {

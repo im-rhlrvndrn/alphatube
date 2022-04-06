@@ -1,12 +1,12 @@
 import Cookies from 'js-cookie';
 import axios from '../../../axios';
+import { YouTube } from '../../../lib';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { abbrNum, isUserLoggedIn, transformDate } from '../../../utils';
+import { isUserLoggedIn, transformDate } from '../../../utils';
 import { useData } from '../../../context/DataProvider';
 import { useTheme } from '../../../context/ThemeContext';
 import { useModal } from '../../../context/ModalProvider';
-import { getChannel } from '../../../utils/youtube.utils';
 
 // styles
 import './videodescription.scss';
@@ -31,10 +31,10 @@ export const VideoDescription = ({ video }) => {
 
             // if (currentChannel?.id !== video?.snippet?.channelId) alert('The channel is the same');
             // else alert('The channels are not same and we failed to fetch new Channel details');
-            if (currentChannel?.id !== video?.snippet?.channelId) {
+            if (currentChannel?.id !== video?.channel?.channelId) {
                 const {
                     data: { items },
-                } = await getChannel(video?.snippet?.channelId);
+                } = await YouTube.getChannel(video?.channel?.channelId);
                 console.log('channel details: ', items[0]);
                 setChannel((prevState) => ({
                     id: items[0]?.id,
@@ -49,7 +49,7 @@ export const VideoDescription = ({ video }) => {
                 });
             } else
                 setChannel((prevState) => ({
-                    id: video?.snippet?.channelId,
+                    id: video?.channel?.channelId,
                     title: currentChannel?.snippet?.title,
                     thumbnails: currentChannel?.snippet?.thumbnails,
                     statistics: currentChannel?.statistics,
@@ -61,19 +61,15 @@ export const VideoDescription = ({ video }) => {
 
     useEffect(() => {
         (async () => {
-            if (video?.snippet?.channelId) await fetchChannel();
+            if (video?.channel?.channelId) await fetchChannel();
         })();
-    }, [video?.snippet?.channelId]);
+    }, [video?.channel?.channelId]);
 
     // useEffect(() => {}, [urlParams.videoId]);
 
     return (
         <div className='video_description'>
-            <VideoDetails
-                title={video?.snippet?.title}
-                videoId={video?.id ?? video?.id?.videoId}
-                video={video}
-            />
+            <VideoDetails title={video?.title} videoId={video?.videoId} video={video} />
             <div className='channel_details flex mt-2'>
                 <img
                     style={{ objectFit: 'cover' }}
@@ -86,7 +82,7 @@ export const VideoDescription = ({ video }) => {
                     {/* <h4>{video[0]?.snippet?.channelTitle}</h4> */}
                 </div>
             </div>
-            <div className='description mt-2'>{video?.snippet?.description}</div>
+            <div className='description mt-2'>{video?.description}</div>
         </div>
     );
 };
@@ -216,15 +212,15 @@ export const VideoDetails = ({ title, videoId, video }) => {
     }, [currentUser]);
 
     console.log('CurrentUser => ', currentUser);
+    console.log('Rendered Video Description component => ', { title, video, videoId });
 
     return (
         <div className='video_details'>
             <h1 className='video_title font-lg'>{title}</h1>
             <div className='video_stats flex flex-justify-sb'>
                 <div className='stats opac-6'>
-                    {abbrNum(video?.statistics?.viewCount, 0)} views{' '}
                     {new Intl.NumberFormat().format(video?.statistics?.viewCount)} views{' '}
-                    {transformDate(video?.snippet?.publishedAt?.split('T')[0])}
+                    {transformDate(video?.published_at?.split('T')[0])}
                 </div>
                 <div className='video_engagement flex'>
                     <button
@@ -234,7 +230,7 @@ export const VideoDetails = ({ title, videoId, video }) => {
                         className='cursor-pointer mr-1 bg-transparent'
                     >
                         {isLiked ? (
-                            <HeartIcon fill={theme.constants.primary} />
+                            <HeartIcon fill={theme.color} />
                         ) : (
                             <HeartOutlinedIcon fill={theme.color} />
                         )}

@@ -12,7 +12,7 @@ export const Toast = () => {
             style={{
                 position: 'fixed',
                 bottom: '1rem',
-                right: '1rem',
+                left: '1rem',
                 width: '400px',
                 maxWidth: '400px',
                 height: 'auto',
@@ -30,10 +30,11 @@ export const Toast = () => {
                         className='toast'
                         key={toast._id}
                         style={{
-                            backgroundColor: theme.light_background,
-                            color: theme.color,
                             padding: '1rem',
+                            // textAlign: 'right',
                             marginBottom: '.5rem',
+                            color: theme.dark_background,
+                            backgroundColor: theme.color,
                             borderLeft: '5px solid rgba(255,192,0)',
                         }}
                     >

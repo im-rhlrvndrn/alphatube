@@ -14,10 +14,6 @@
         @include lg-tablet {
             flex: 1;
         }
-
-        .player {
-            box-shadow: 0 10px 20px 0 rgba($color: #000000, $alpha: 0.4);
-        }
     }
 
     .playlist_container {
