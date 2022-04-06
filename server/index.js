@@ -10,6 +10,17 @@ const playlistRoutes = require('./routes/playlist.routes');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+(() => {
+    mongoose.connect(process.env.MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+
+    const db = mongoose.connection;
+    db.on('error', (error) => console.log('MongoDB connection error =>', error));
+    db.once('open', () => console.log('MongoDB connected'));
+})();
+
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -22,30 +33,3 @@ app.use('/', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
-
-(async () => {
-    try {
-        await mongoose.connect(
-            process.env.MONGODB_URI,
-            {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-                useCreateIndex: true,
-                useFindAndModify: false,
-            },
-            () => console.log('MongoDB connection established')
-        );
-    } catch (error) {
-        console.error('Error connecting to MongoDB => ', error);
-    }
-})();
-// mongoose.connect(
-//     process.env.MONGODB_URI,
-//     {
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true,
-//         useCreateIndex: true,
-//         useFindAndModify: false,
-//     },
-//     () => console.log('MongoDB connection established')
-// );
